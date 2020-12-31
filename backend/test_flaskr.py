@@ -98,7 +98,7 @@ class TriviaTestCase(unittest.TestCase):
         response = self.client().get('/categories')
         self.assertEqual(response.status_code, 200)
 
-        data_expected = [c.format() for c in Category.query.all()]
+        data_expected = {f'{c.id}':c.type for c in Category.query.all()}
         response_data = response.get_json()
         self.assertEqual(data_expected, response_data['categories'])
 
