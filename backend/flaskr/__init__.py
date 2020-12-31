@@ -8,6 +8,13 @@ from models import setup_db, Question, Category
 
 QUESTIONS_PER_PAGE = 10
 
+def get_paginated_questions(page_number):
+  start_index = (page_number - 1) * QUESTIONS_PER_PAGE
+  end_index = start_index + QUESTIONS_PER_PAGE
+  questions_page = Question.query.order_by(Question.id).slice(start_index, end_index)
+  return [q.format() for q in questions_page]
+
+
 def create_app(test_config=None):
   # create and configure the app
   app = Flask(__name__)
@@ -52,6 +59,16 @@ def create_app(test_config=None):
   ten questions per page and pagination at the bottom of the screen for three pages.
   Clicking on the page numbers should update the questions. 
   '''
+  @app.route('/questions')
+  def get_questions():
+    page_number = request.args.get('page', 1, type=int)
+
+    return jsonify({
+        "questions": get_paginated_questions(page_number),
+        "total_questions": Question.query.count(),
+        "categories": {c.id:c.type for c in Category.query.all()},
+        "current_category": None
+    })
 
   '''
   @TODO: 
