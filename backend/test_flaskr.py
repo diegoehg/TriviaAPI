@@ -117,6 +117,19 @@ class TriviaTestCase(unittest.TestCase):
         self.assertEqual(categories, response_data['categories'])
 
 
+    def test_get_questions_page_2(self):
+        response = self.client().get('/questions?page=2')
+        self.assertEqual(response.status_code, 200)
+
+        questions = [q.format() for q in Question.query.order_by(Question.id).slice(10,20)]
+        total_questions = Question.query.count()
+        categories = {f'{c.id}':c.type for c in Category.query.all()}
+
+        response_data = response.get_json()
+        self.assertEqual(questions, response_data['questions'])
+        self.assertEqual(total_questions, response_data['total_questions'])
+        self.assertEqual(categories, response_data['categories'])
+
 # Make the tests conveniently executable
 if __name__ == "__main__":
     unittest.main()
