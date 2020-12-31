@@ -150,6 +150,11 @@ class TriviaTestCase(unittest.TestCase):
         self.assertEqual(question_id, response_data["deleted"])
 
 
+    def test_404_when_deleting_non_existent_question(self):
+        response = self.client().delete("/questions/88949494")
+        self.assertEqual(response.status_code, 404)
+
+
 # Make the tests conveniently executable
 if __name__ == "__main__":
     unittest.main()
