@@ -132,8 +132,23 @@ class TriviaTestCase(unittest.TestCase):
 
 
     def test_404_when_get_questions_page_without_results(self):
-        response = self.client().get('questions?page=3444')
+        response = self.client().get('/questions?page=3444')
         self.assertEqual(response.status_code, 404)
+
+
+    def test_delete_question(self):
+        q = Question.query.first()
+        question_id = q.id
+        total_questions_before_delete = Question.query.count()
+
+        response = self.client().delete(f"/questions/{question_id}")
+        self.assertEqual(response.status_code, 200)
+
+        total_questions_after_delete = Question.query.count()
+        response_data = response.get_json()
+        self.assertEqual(total_questions_before_delete - 1, total_questions_after_delete)
+        self.assertEqual(question_id, response_data["deleted"])
+
 
 # Make the tests conveniently executable
 if __name__ == "__main__":
