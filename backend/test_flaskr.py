@@ -130,6 +130,11 @@ class TriviaTestCase(unittest.TestCase):
         self.assertEqual(total_questions, response_data['total_questions'])
         self.assertEqual(categories, response_data['categories'])
 
+
+    def test_404_when_get_questions_page_without_results(self):
+        response = self.client().get('questions?page=3444')
+        self.assertEqual(response.status_code, 404)
+
 # Make the tests conveniently executable
 if __name__ == "__main__":
     unittest.main()

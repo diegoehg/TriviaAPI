@@ -62,9 +62,13 @@ def create_app(test_config=None):
   @app.route('/questions')
   def get_questions():
     page_number = request.args.get('page', 1, type=int)
+    questions = get_paginated_questions(page_number)
+
+    if len(questions) == 0:
+      abort(404)
 
     return jsonify({
-        "questions": get_paginated_questions(page_number),
+        "questions": questions,
         "total_questions": Question.query.count(),
         "categories": {c.id:c.type for c in Category.query.all()},
         "current_category": None
