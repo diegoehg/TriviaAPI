@@ -178,6 +178,17 @@ class TriviaTestCase(unittest.TestCase):
         self.assertEqual(new_question['category'], q.category)
 
 
+    def test_422_when_post_malformed(self):
+        response = self.client().post(
+                "/questions",
+                json={
+                    "oijij": 909,
+                    "949494": "uksl_"
+                }
+        )
+        self.assertEqual(response.status_code, 422)
+
+
 # Make the tests conveniently executable
 if __name__ == "__main__":
     unittest.main()
