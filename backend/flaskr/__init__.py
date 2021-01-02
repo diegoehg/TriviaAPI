@@ -111,7 +111,16 @@ def create_app(test_config=None):
   of the questions list in the "List" tab.  
   '''
   @app.route('/questions', methods=['POST'])
-  def post_question():
+  def post_questions():
+    data = request.get_json()
+
+    if "search" in data:
+      return get_search_questions(data["search"])
+    else:
+      return insert_question(data)
+
+  
+  def insert_question(data):
     data = request.get_json()
 
     try:
@@ -140,6 +149,16 @@ def create_app(test_config=None):
   only question that include that string within their question. 
   Try using the word "title" to start. 
   '''
+  def get_search_questions(search_term):
+    questions = [
+            q.format() for q
+            in Question.query.filter(Question.question.ilike(f'%{search_term}%')).all()
+    ]
+
+    return jsonify({
+        "questions": questions,
+        "total_questions": Question.query.count()
+    })
 
   '''
   @TODO: 

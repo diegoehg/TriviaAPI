@@ -189,6 +189,23 @@ class TriviaTestCase(unittest.TestCase):
         self.assertEqual(response.status_code, 422)
 
 
+    def test_post_search_questions(self):
+        response = self.client().post(
+                "/questions",
+                json={"search": "which"}
+        )
+        self.assertEqual(response.status_code, 200)
+
+        questions = [
+                q.format() for q 
+                in Question.query.filter(Question.question.ilike('%which%')).all()
+        ]
+        total_questions = Question.query.count()
+        response_data = response.get_json()
+        self.assertEqual(questions, response_data['questions'])
+        self.assertEqual(total_questions, response_data['total_questions'])
+
+
 # Make the tests conveniently executable
 if __name__ == "__main__":
     unittest.main()
