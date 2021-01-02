@@ -155,6 +155,29 @@ class TriviaTestCase(unittest.TestCase):
         self.assertEqual(response.status_code, 404)
 
 
+    def test_post_new_question(self):
+        total_questions_before_post = Question.query.count()
+        new_question = {
+                "question": "How is this question posted?",
+                "answer": "It is posted through a REST endpoint",
+                "difficulty": 1,
+                "category": "Miscellaneous"
+        }
+
+        response = self.client().post('/questions', json=new_question)
+        self.assertEqual(response.status_code, 200)
+
+        total_questions_after_post = Question.query.count()
+        self.assertEqual(total_questions_before_post + 1, total_questions_after_post)
+
+        response_data = response.get_json()
+        q = Question.query.get(response_data['created'])
+        self.assertEqual(new_question['question'], q.question)
+        self.assertEqual(new_question['answer'], q.answer)
+        self.assertEqual(new_question['difficulty'], q.difficulty)
+        self.assertEqual(new_question['category'], q.category)
+
+
 # Make the tests conveniently executable
 if __name__ == "__main__":
     unittest.main()
