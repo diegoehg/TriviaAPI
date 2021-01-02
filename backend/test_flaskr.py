@@ -206,6 +206,14 @@ class TriviaTestCase(unittest.TestCase):
         self.assertEqual(total_questions, response_data['total_questions'])
 
 
+    def test_422_when_posting_malformed_search(self):
+        response = self.client().post(
+                "/questions",
+                json={"searchedseg": 495958}
+        )
+        self.assertEqual(response.status_code, 422)
+
+
 # Make the tests conveniently executable
 if __name__ == "__main__":
     unittest.main()
