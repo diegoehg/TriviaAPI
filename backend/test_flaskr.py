@@ -104,7 +104,7 @@ class TriviaTestCase(unittest.TestCase):
                 "question": "How is this question posted?",
                 "answer": "It is posted through a REST endpoint",
                 "difficulty": 1,
-                "category": "Miscellaneous"
+                "category": 1
         }
 
         response = self.client().post('/questions', json=new_question)
