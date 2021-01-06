@@ -229,6 +229,20 @@ class TriviaTestCase(unittest.TestCase):
         self.assertTrue(response_data['question'] == None)
 
 
+    def test_get_quiz_question_all_categories(self):
+        response = self.client().post(
+                '/quizzes',
+                json={
+                    "previous_questions": [],
+                    "quiz_category": {"id": 0}
+                }
+        )
+        self.assertEqual(response.status_code, 200)
+
+        response_data = response.get_json()
+        self.assertTrue(response_data['question'] != None)
+
+
 # Make the tests conveniently executable
 if __name__ == "__main__":
     unittest.main()

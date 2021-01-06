@@ -203,9 +203,12 @@ def create_app(test_config=None):
   def get_quiz_question():
     data = request.get_json()
 
-    category = Category.query.get_or_404(data['quiz_category']['id'])
+    category_id = data['quiz_category']['id']
+    query = Question.query
 
-    query = Question.query.filter(Question.category==category.id)
+    if category_id != 0:
+      category = Category.query.get_or_404(category_id)
+      query = query.filter(Question.category==category.id)
 
     previous_questions = data['previous_questions']
     if(len(previous_questions) > 0):
