@@ -139,6 +139,7 @@ def create_app(test_config=None):
     except:
       abort(422)
 
+
   '''
   @TODO: 
   Create a POST endpoint to get questions based on a search term. 
@@ -160,6 +161,7 @@ def create_app(test_config=None):
         "total_questions": Question.query.count()
     })
 
+
   '''
   @TODO: 
   Create a GET endpoint to get questions based on category. 
@@ -168,6 +170,20 @@ def create_app(test_config=None):
   categories in the left column will cause only questions of that 
   category to be shown. 
   '''
+  @app.route('/categories/<int:category_id>/questions')
+  def get_questions_per_category(category_id):
+    category = Category.query.get_or_404(category_id)
+
+    questions = [
+            q.format() for q
+            in Question.query.filter(Question.category==category.id).all()
+    ]
+
+    return jsonify({
+        "questions": questions,
+        "total_questions": Question.query.count(),
+        "current_category": category.id
+    })
 
 
   '''
