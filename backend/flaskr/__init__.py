@@ -2,7 +2,7 @@ import os
 from flask import Flask, request, abort, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
-import random
+from random import seed, choice
 
 from models import setup_db, Question, Category
 
@@ -19,6 +19,8 @@ def create_app(test_config=None):
   # create and configure the app
   app = Flask(__name__)
   setup_db(app)
+
+  seed()
   
   '''
   @TODO: Set up CORS. Allow '*' for origins. Delete the sample route after completing the TODOs
@@ -197,6 +199,19 @@ def create_app(test_config=None):
   one question at a time is displayed, the user is allowed to answer
   and shown whether they were correct or not. 
   '''
+  @app.route('/quizzes', methods=['POST'])
+  def get_quizz_question():
+    data = request.get_json()
+
+    quiz_category = data['quiz_category']
+    category = Category.query.get_or_404(quiz_category['id'])
+
+    question_selected = choice(
+            Question.query.filter(Question.category==category.id).all()
+    )
+
+    return jsonify({"question": question_selected.format()})
+
 
   '''
   @TODO: 
