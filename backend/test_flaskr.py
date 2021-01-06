@@ -174,6 +174,11 @@ class TriviaTestCase(unittest.TestCase):
         self.assertEqual(category.id, response_data['current_category'])
 
 
+    def test_404_category_non_existent(self):
+        response = self.client().get('/categories/4556/questions')
+        self.assertEqual(response.status_code, 404)
+
+
 # Make the tests conveniently executable
 if __name__ == "__main__":
     unittest.main()
