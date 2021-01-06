@@ -211,9 +211,9 @@ def create_app(test_config=None):
     if(len(previous_questions) > 0):
         query = query.filter(~Question.id.in_(previous_questions))
 
-    question_selected = choice(query.all())
+    question_selected = choice(query.all()).format() if query.count() > 0 else None
 
-    return jsonify({"question": question_selected.format()})
+    return jsonify({"question": question_selected})
 
 
   '''

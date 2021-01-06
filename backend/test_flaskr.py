@@ -80,8 +80,7 @@ class TriviaTestCase(unittest.TestCase):
 
 
     def test_delete_question(self):
-        q = Question.query.first()
-        question_id = q.id
+        question_id = 2
         total_questions_before_delete = Question.query.count()
 
         response = self.client().delete(f"/questions/{question_id}")
@@ -211,6 +210,23 @@ class TriviaTestCase(unittest.TestCase):
         question = response.get_json()['question']
         self.assertTrue(question != None)
         self.assertTrue(question['id'] not in previous_questions)
+
+
+    def test_get_quiz_question_with_none_result(self):
+        category = Category.query.get(4)
+        previous_questions = [5, 9, 12, 23]
+
+        response = self.client().post(
+                '/quizzes',
+                json={
+                    "previous_questions": previous_questions,
+                    "quiz_category": category.format()
+                }
+        )
+        self.assertEqual(response.status_code, 200)
+        
+        response_data = response.get_json()
+        self.assertTrue(response_data['question'] == None)
 
 
 # Make the tests conveniently executable
