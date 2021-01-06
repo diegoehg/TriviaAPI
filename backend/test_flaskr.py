@@ -179,7 +179,7 @@ class TriviaTestCase(unittest.TestCase):
         self.assertEqual(response.status_code, 404)
 
 
-    def test_get_quizz_question(self):
+    def test_get_quiz_question_without_previous_questions(self):
         category = Category.query.get(1)
 
         response = self.client().post(
@@ -193,6 +193,24 @@ class TriviaTestCase(unittest.TestCase):
 
         response_data = response.get_json()
         self.assertTrue(response_data['question'] != None)
+
+
+    def test_get_quiz_question_with_previous_questions(self):
+        category = Category.query.get(4)
+        previous_questions = [5, 12, 23]
+
+        response = self.client().post(
+                '/quizzes',
+                json={
+                    "previous_questions": previous_questions,
+                    "quiz_category": category.format()
+                }
+        )
+        self.assertEqual(response.status_code, 200)
+
+        question = response.get_json()['question']
+        self.assertTrue(question != None)
+        self.assertTrue(question['id'] not in previous_questions)
 
 
 # Make the tests conveniently executable

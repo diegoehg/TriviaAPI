@@ -200,15 +200,18 @@ def create_app(test_config=None):
   and shown whether they were correct or not. 
   '''
   @app.route('/quizzes', methods=['POST'])
-  def get_quizz_question():
+  def get_quiz_question():
     data = request.get_json()
 
-    quiz_category = data['quiz_category']
-    category = Category.query.get_or_404(quiz_category['id'])
+    category = Category.query.get_or_404(data['quiz_category']['id'])
 
-    question_selected = choice(
-            Question.query.filter(Question.category==category.id).all()
-    )
+    query = Question.query.filter(Question.category==category.id)
+
+    previous_questions = data['previous_questions']
+    if(len(previous_questions) > 0):
+        query = query.filter(~Question.id.in_(previous_questions))
+
+    question_selected = choice(query.all())
 
     return jsonify({"question": question_selected.format()})
 
