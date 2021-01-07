@@ -78,6 +78,9 @@ class TriviaTestCase(unittest.TestCase):
         response = self.client().get('/questions', query_string={'page': 3444})
         self.assertEqual(response.status_code, 404)
 
+        response_data = response.get_json()
+        self.assertEqual(404, response_data['error'])
+
 
     def test_delete_question(self):
         question_id = 2
@@ -95,6 +98,9 @@ class TriviaTestCase(unittest.TestCase):
     def test_404_when_deleting_non_existent_question(self):
         response = self.client().delete("/questions/88949494")
         self.assertEqual(response.status_code, 404)
+
+        response_data = response.get_json()
+        self.assertEqual(404, response_data['error'])
 
 
     def test_post_new_question(self):
@@ -177,6 +183,9 @@ class TriviaTestCase(unittest.TestCase):
         response = self.client().get('/categories/4556/questions')
         self.assertEqual(response.status_code, 404)
 
+        response_data = response.get_json()
+        self.assertEqual(404, response_data['error'])
+
 
     def test_get_quiz_question_without_previous_questions(self):
         category = Category.query.get(1)
@@ -255,6 +264,9 @@ class TriviaTestCase(unittest.TestCase):
                 }
         )
         self.assertEqual(response.status_code, 404)
+
+        response_data = response.get_json()
+        self.assertEqual(404, response_data['error'])
 
 
 # Make the tests conveniently executable
