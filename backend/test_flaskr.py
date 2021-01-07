@@ -136,6 +136,9 @@ class TriviaTestCase(unittest.TestCase):
         )
         self.assertEqual(response.status_code, 422)
 
+        response_data = response.get_json()
+        self.assertEqual(422, response_data['error'])
+
 
     def test_post_search_questions(self):
         response = self.client().post(
@@ -160,6 +163,9 @@ class TriviaTestCase(unittest.TestCase):
                 json={"searchedseg": 495958}
         )
         self.assertEqual(response.status_code, 422)
+
+        response_data = response.get_json()
+        self.assertEqual(422, response_data['error'])
 
 
     def test_get_questions_per_category(self):

@@ -233,6 +233,15 @@ def create_app(test_config=None):
     }), 404  
 
 
+  @app.errorhandler(422)
+  def entity_not_processable(error):
+    return jsonify({
+        "success": False,
+        "error": 422,
+        "message": "The request was well-formed but was unable to be followed due to semantic errors"
+    }), 422
+
+
   return app
 
     
