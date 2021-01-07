@@ -116,8 +116,8 @@ def create_app(test_config=None):
   def post_questions():
     data = request.get_json()
 
-    if "search" in data:
-      return get_search_questions(data["search"])
+    if "searchTerm" in data:
+      return get_search_questions(data["searchTerm"])
     else:
       return insert_question(data)
 
