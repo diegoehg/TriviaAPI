@@ -243,6 +243,20 @@ class TriviaTestCase(unittest.TestCase):
         self.assertTrue(response_data['question'] != None)
 
 
+    def test_404_when_get_quiz_question_passed_non_existent_category(self):
+        response = self.client().post(
+                '/quizzes',
+                json={
+                    "previous_questions": [],
+                    "quiz_category": {
+                        "id": 3040,
+                        "type": "Non existent"
+                    }
+                }
+        )
+        self.assertEqual(response.status_code, 404)
+
+
 # Make the tests conveniently executable
 if __name__ == "__main__":
     unittest.main()
