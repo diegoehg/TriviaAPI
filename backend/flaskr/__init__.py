@@ -155,7 +155,6 @@ def create_app(test_config=None):
   @app.errorhandler(404)
   def not_found(error):
     return jsonify({
-        "success": False,
         "error": 404,
         "message": "The requested resource could not be found"
     }), 404  
@@ -164,11 +163,33 @@ def create_app(test_config=None):
   @app.errorhandler(422)
   def entity_not_processable(error):
     return jsonify({
-        "success": False,
         "error": 422,
         "message": "The request was well-formed but was unable to be followed due to semantic errors"
     }), 422
 
+
+  @app.errorhandler(400)
+  def bad_request(error):
+    return jsonify({
+        "error": 400,
+        "message": "The server cannot process the request"
+    }), 400
+
+
+  @app.errorhandler(405)
+  def method_not_allowed(error):
+    return jsonify({
+        "error": 405,
+        "message": "Request method is not supported for the requested resource"
+    }), 405
+
+
+  @app.errorhandler(500)
+  def method_not_allowed(error):
+    return jsonify({
+        "error": 500,
+        "message": "Internal server error"
+    }), 500
 
   return app
 
