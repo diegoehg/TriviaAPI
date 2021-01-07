@@ -89,6 +89,23 @@ GET '/categories'
 
 ```
 
+## Endpoints
+
+### GET /categories
+- It returns a dictionary of all available categories, in which the keys are the IDs, and the corresponding values are the types of categories
+- Request arguments: None
+- Returns: An object with a single key, categories, that contains a object of id:type key:value pairs. 
+
+```json
+"categories": {
+  '1' : "Science",
+  '2' : "Art",
+  '3' : "Geography",
+  '4' : "History",
+  '5' : "Entertainment",
+  '6' : "Sports"
+}
+```
 
 ## Testing
 To run the tests, run
