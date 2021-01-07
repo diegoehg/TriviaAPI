@@ -177,7 +177,7 @@ class TriviaTestCase(unittest.TestCase):
                 q.format() for q
                 in Question.query.filter(Question.category==category.id).all()
         ]
-        total_questions = Question.query.count()
+        total_questions = len(questions)
 
         response_data = response.get_json()
         self.assertEqual(questions, response_data['questions'])
