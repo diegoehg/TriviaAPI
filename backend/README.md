@@ -383,9 +383,52 @@ GET '/categories'
 }
 ```
 
+### POST /quizzes
+- It returns a question selected randomly. It searches in the question of the selected categories, and it avoids to select the previous questions passed.
+- If it is passed a 0 as a category_id, it selects a question from all the categories available.
+- Request arguments: None
+- Return: a question randomly selected in a `question` field. If the `previous_questions` field of the request body contains all of the questions available, it returns and empy field.
 
+#### POST quiz request body
+```json
+{
+  "previous_questions": [16, 5, 4],
+  "quiz_category":{
+    "type": "Art",
+    "id": "2"
+  }
+}
+```
 
+#### POST quiz response body
+```json
+{
+  "question": {
+    "answer": "Mona Lisa", 
+    "category": 2, 
+    "difficulty": 3, 
+    "id": 17, 
+    "question": "La Giaconda is better known as what?"
+  }
+}
+```
 
+### Error handling
+Errors are returned as JSON objects in the following format:
+
+```json
+{
+  "error": 400,
+  "message": "bad request"
+}
+```
+
+The API will return three error types when requests fail:
+- 400: Bad Request
+- 404: Resource Not Found
+- 405: Method Not Supported
+- 422: Not Processable
+- 500: Internal Server Error
 
 
 ## Testing
