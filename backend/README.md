@@ -341,6 +341,47 @@ GET '/categories'
 }
 ```
 
+### GET /categories/{category_id}/questions 
+- Returns the questions corresponding to the specified category.
+- Request arguments: None
+- Return: the category id in a `current_category` field, the list of questions on a `questions` field and the total of questions returned in a `total_questions`field.
+
+```json
+{
+  "current_category": 3, 
+  "questions": [
+    {
+      "answer": "Lake Victoria", 
+      "category": 3, 
+      "difficulty": 2, 
+      "id": 13, 
+      "question": "What is the largest lake in Africa?"
+    }, 
+    {
+      "answer": "The Palace of Versailles", 
+      "category": 3, 
+      "difficulty": 3, 
+      "id": 14, 
+      "question": "In which royal palace would you find the Hall of Mirrors?"
+    }, 
+    {
+      "answer": "Agra", 
+      "category": 3, 
+      "difficulty": 2, 
+      "id": 15, 
+      "question": "The Taj Mahal is located in which Indian city?"
+    }, 
+    {
+      "answer": "Bangkok", 
+      "category": 3, 
+      "difficulty": 2, 
+      "id": 24, 
+      "question": "What is the capital of Thailand?"
+    }
+  ], 
+  "total_questions": 4
+}
+```
 
 
 
