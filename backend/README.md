@@ -285,7 +285,64 @@ GET '/categories'
 }
 ```
 
-###
+### POST /questions
+- This endpoint has double functionality: posting new questions & searching questions.
+    - For posting a new question, an object with `question`, `answer`, `category` and `difficulty` fields must be passed through the body of request.
+    - For searching questions, an object with `searchTerm` field must be passed.
+- Request arguments: None.
+- Return:
+    - In the case of posting, an object with `created` field, that contains the id of the new question.
+    - In the case of searching, an object with `questions` and `total_questions` fields. The first one is the list of the questions found, and the second is the ammount of questions found.
+
+#### POST new question request body
+```json
+{
+  "question": "What is the capital of Thailand?",
+  "answer": "Bangkok",
+  "difficulty": "2",
+  "category": "3"
+}
+```
+
+#### POST new question response body
+```json
+{
+  "created": 24
+}
+```
+
+#### POST search questions request body
+```json
+{
+  "searchTerm": "title"
+}
+```
+
+#### POST search questions response body
+```json
+{
+  "questions": [
+    {
+      "answer": "Maya Angelou", 
+      "category": 4, 
+      "difficulty": 2, 
+      "id": 5, 
+      "question": "Whose autobiography is entitled 'I Know Why the Caged Bird Sings'?"
+    }, 
+    {
+      "answer": "Edward Scissorhands", 
+      "category": 5, 
+      "difficulty": 3, 
+      "id": 6, 
+      "question": "What was the title of the 1990 fantasy directed by Tim Burton about a young man with multi-bladed appendages?"
+    }
+  ], 
+  "total_questions": 19
+}
+```
+
+
+
 
 
 
